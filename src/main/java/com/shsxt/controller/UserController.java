@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.shsxt.base.Constant;
+import com.shsxt.base.ResultInfo;
 import com.shsxt.exception.ParamException;
 import com.shsxt.model.User;
 import com.shsxt.service.UserService;
@@ -24,19 +26,20 @@ public class UserController  extends BaseController{
 
 	@RequestMapping("login")
 	@ResponseBody
-	public Map<String, Object> login(String userName,String password) {
+	public ResultInfo login(String userName,String password) {
 		Map<String, Object> map = new HashMap<>();
 		try {
 			UserLoginIdentity uli = userService.login(userName, password);
-			map.put("resultCode", 1);
-			map.put("message", "Success");
-			map.put("result", uli);
+//			map.put("resultCode", 1);
+//			map.put("message", "Success");
+//			map.put("result", uli);
+			return success(uli, Constant.SUCCESS_MSG);
 		} catch (ParamException e) {
-			map.put("resultCode", e.getErrorCode());
-			map.put("message", e.getMessage());
-			map.put("result", e.getMessage());
+//			map.put("resultCode", e.getErrorCode());
+//			map.put("message", e.getMessage());
+//			map.put("result", e.getMessage());
+			return failure(e);
 		}
-		return map;
 	}
 	
 	@RequestMapping("find_customer_manager")

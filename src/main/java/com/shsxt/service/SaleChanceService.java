@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
 import com.github.miemiedev.mybatis.paginator.domain.Paginator;
+import com.shsxt.base.AssertUtil;
 import com.shsxt.dao.SaleChanceDao;
 import com.shsxt.dto.SaleChanceQuery;
 import com.shsxt.exception.ParamException;
@@ -55,12 +56,14 @@ public class SaleChanceService {
 	 */
 	public void addOrUpdate(SaleChance saleChance,String userName) {
 		//基本参数验证
-		if (saleChance.getCustomerId() == null || saleChance.getCustomerId() < 1) {
-			throw new ParamException("请选择客户");
-		}
-		if (saleChance.getCgjl() == null || saleChance.getCgjl() < 1) {
-			throw new ParamException("请输入成功几率");
-		}
+		AssertUtil.intIsEmpty(saleChance.getCustomerId(), "请选择客户");
+		AssertUtil.intIsEmpty(saleChance.getCgjl(), "请输入成功机率");
+//		if (saleChance.getCustomerId() == null || saleChance.getCustomerId() < 1) {
+//			throw new ParamException("请选择客户");
+//		}
+//		if (saleChance.getCgjl() == null || saleChance.getCgjl() < 1) {
+//			throw new ParamException("请输入成功几率");
+//		}
 		
 		saleChance.setCreateMan(userName);
 		Integer id = saleChance.getId();
@@ -68,9 +71,10 @@ public class SaleChanceService {
 		
 		if (id != null){//验证该记录是否存在
 			saleChanceFromDB = saleChanceDao.findById(id);
-			if (saleChanceFromDB == null) {
-				throw new ParamException("该记录不存在");
-			}
+			AssertUtil.objectIsEmpty(saleChanceFromDB, "该记录不存在");
+//			if (saleChanceFromDB == null) {
+//				throw new ParamException("该记录不存在");
+//			}
 		}
 		//是否有过分配
 		String assignMan = saleChance.getAssignMan();
