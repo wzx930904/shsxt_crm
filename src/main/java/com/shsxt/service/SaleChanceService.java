@@ -33,14 +33,14 @@ public class SaleChanceService {
 	 */
 	public Map<String, Object> selectForPage(SaleChanceQuery query) {
 		//分页查询  构建一个PageBounds --->dao返回PageList--->sql
-		if (query.getPage() == null || query.getPage() < 1) {
-			query.setPage(1);
-		}
-		if (query.getRows() == null || query.getRows() < 1) {
-			query.setRows(10);
-		}
-		PageBounds pageBounds = new PageBounds(query.getPage(), query.getRows());
-		PageList<SaleChance> saleChances = saleChanceDao.selectForPage(query,pageBounds);
+//		if (query.getPage() == null || query.getPage() < 1) {
+//			query.setPage(1);
+//		}
+//		if (query.getRows() == null || query.getRows() < 1) {
+//			query.setRows(10);
+//		}
+//		PageBounds pageBounds = new PageBounds(query.getPage(), query.getRows());
+		PageList<SaleChance> saleChances = saleChanceDao.selectForPage(query,query.buildPageBounds());
 		Paginator paginator = saleChances.getPaginator();//分页对象
 		Map<String,Object> map = new HashMap<>();
 		map.put("paginator", paginator);
@@ -115,5 +115,25 @@ public class SaleChanceService {
 			throw new ParamException("请选择记录进行删除");
 		}
 		saleChanceDao.delete(ids);
+	}
+
+	public SaleChance findById(Integer saleChanceId) {
+		AssertUtil.intIsEmpty(saleChanceId, "请选择营销机会");
+		SaleChance saleChance = saleChanceDao.findById(saleChanceId);
+		AssertUtil.objectIsEmpty(saleChance, "该机会不存在");
+		return saleChance;
+	}
+
+	/**
+	 * 更新开发状态
+	 * @param saleChanceId
+	 * @param devResult
+	 */
+	public void updateDevResult(Integer saleChanceId, int devResult) {
+		
+		AssertUtil.intIsEmpty(saleChanceId, "请选择营销机会");
+		
+		saleChanceDao.updateDevResult(saleChanceId,devResult);
+		
 	}
 }
