@@ -13,7 +13,8 @@
 		<include refid="Module_Columns" />
 		from t_module
 		<where>
-			is_valid=1 and module_name=#{moduleName} and parent_id=#{parentId}
+			is_valid=1 and module_name=#{moduleName} and
+			parent_id=#{parentId}
 		</where>
 	</select>
 
@@ -70,17 +71,29 @@
 			<if test="@Ognl@isNotEmpty(optValue)">
 				opt_value=#{optValue},
 			</if>
-			
+
 			update_date=#{updateDate}
 		</set>
 		where id = #{id}
 	</update>
-	
+
 	<update id="deleteBatch">
-	update t_module set is_valid=0,update_date=now() where id in(${ids})
+		update t_module set is_valid=0,update_date=now() where id in(${ids})
 	</update>
-	
+
 	<select id="findAll" resultType="com.shsxt.vo.ModuleVO">
-	select id,module_name,parent_id from t_module where is_valid=1 order by parent_id,orders
+		select id,module_name,parent_id from t_module where is_valid=1 order by
+		parent_id,orders
 	</select>
+
+	<select id="findByIds" resultType="module">
+		select
+		<include refid="Module_Columns" />
+		from t_module
+		<where>
+			is_valid=1 and id in (${ancestorIds})
+		</where>
+	</select>
+
+
 </mapper>

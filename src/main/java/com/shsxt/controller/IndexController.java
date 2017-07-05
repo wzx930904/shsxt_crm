@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.shsxt.annotation.SystemLog;
 import com.shsxt.service.UserService;
 import com.shsxt.util.LoginUserUtil;
 import com.shsxt.vo.UserLoginIdentity;
@@ -18,6 +19,7 @@ public class IndexController  extends BaseController{
 	private UserService userService;
 	
 	@RequestMapping("index")
+	//@SystemLog(description="首页")
 	public String index(Model model,HttpServletRequest request) {
 		return "index";
 	}

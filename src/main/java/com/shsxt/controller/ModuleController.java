@@ -79,6 +79,6 @@ public class ModuleController extends BaseController{
 	@ResponseBody
 	public ResultInfo doRelate(Integer roleId,Integer moduleId,boolean checked) {
 		permissionService.addDoRelate(roleId,moduleId,checked);
-		return success("删除成功");
+		return success("操作成功");
 	}
 }

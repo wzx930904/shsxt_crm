@@ -1,15 +1,19 @@
 package com.shsxt.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
 import com.shsxt.base.AssertUtil;
 import com.shsxt.controller.BaseController;
 import com.shsxt.dao.UserDao;
+import com.shsxt.dto.UserQuery;
 import com.shsxt.exception.ParamException;
 import com.shsxt.model.User;
 import com.shsxt.util.MD5Util;
@@ -92,5 +96,13 @@ public class UserService {
 		uli.setRealName(user.getTrueName());
 		uli.setUserIdString(UserIDBase64.encoderUserID(user.getId()));
 		return uli;
+	}
+
+	public Map<String, Object> selectForPage(UserQuery userQuery) {
+		PageList<User> users = userDao.selectForPage(userQuery,userQuery.buildPageBounds());
+		Map<String, Object> map = new HashMap<>();
+		map.put("rows", users);
+		map.put("total", users.getPaginator().getTotalCount());
+		return map;
 	}
 }

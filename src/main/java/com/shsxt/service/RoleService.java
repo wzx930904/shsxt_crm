@@ -56,11 +56,11 @@ public class RoleService {
 		roleDao.deleteBatch(ids);
 	}
 
-	public void findById(Integer roleId) {
+	public Role findById(Integer roleId) {
 		AssertUtil.intIsEmpty(roleId, "请选择角色");
 		Role role = roleDao.findById(roleId);
 		AssertUtil.objectIsEmpty(role, "角色不存在");
+		return role;
 	}
 
-	
 }

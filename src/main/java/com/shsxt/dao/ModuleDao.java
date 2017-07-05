@@ -32,4 +32,10 @@ public interface ModuleDao {
 
 	List<ModuleVO> findAll();
 
+	@Select("select id,module_name,parent_id,opt_value"
+			+ " from t_module where is_valid=1 and tree_path like '${treePath}%'")
+	List<Module> findSonModules(@Param(value="treePath")String treePath);
+
+	List<Module> findByIds(@Param(value="ancestorIds")String ancestorIds);
+
 }

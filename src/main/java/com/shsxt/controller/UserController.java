@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shsxt.base.Constant;
 import com.shsxt.base.ResultInfo;
+import com.shsxt.dto.UserQuery;
 import com.shsxt.exception.ParamException;
 import com.shsxt.model.User;
 import com.shsxt.service.UserService;
@@ -42,10 +43,22 @@ public class UserController  extends BaseController{
 		}
 	}
 	
+	@RequestMapping("index")
+	public String index() {
+		return "user";
+	}
+	
 	@RequestMapping("find_customer_manager")
 	@ResponseBody
 	public List<User> findCustomerManger() {
 		List<User> users = userService.findCustomerManager();
 		return users;
+	}
+	
+	@RequestMapping("list")
+	@ResponseBody
+	public Map<String, Object> selectForPage(UserQuery userQuery) {
+		Map<String, Object> result = userService.selectForPage(userQuery);
+		return result;
 	}
 }

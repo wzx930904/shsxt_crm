@@ -25,6 +25,13 @@
 
         function onCheck(e, treeId, treeNode) {
             console.log(treeNode.id + "--" + treeNode.checked)
+            var data = {roleId:${roleId?c},moduleId:treeNode.id,
+            checked:treeNode.checked};
+          $.post('dorelate',data,function(resp) {
+           if (resp.resultCode != 1){
+           alert(resp.resultMessage);
+           }
+          })  
         }
 		
 		var zNodes = [];

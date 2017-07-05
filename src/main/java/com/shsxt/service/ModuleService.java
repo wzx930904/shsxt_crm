@@ -34,7 +34,7 @@ public class ModuleService {
 		PageList<Module> modules = moduleDao.selectForPage(bq.buildPageBounds());
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", modules);
-		result.put("page", modules.getPaginator().getTotalCount());
+		result.put("total", modules.getPaginator().getTotalCount());
 		return result;
 	}
 
@@ -163,5 +163,17 @@ public class ModuleService {
 			}
 		}
 		return modules;
+	}
+
+	/**
+	 * 根据Id获取对象
+	 * @param moduleId
+	 * @return
+	 */
+	public Module findById(Integer moduleId) {
+		AssertUtil.intIsEmpty(moduleId, "请选择模块");
+		Module module = moduleDao.findById(moduleId);
+		AssertUtil.objectIsEmpty(module, "该模块不存在");
+		return module;
 	}
 }

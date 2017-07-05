@@ -42,6 +42,7 @@
         </property>   
     </bean>
     
+    
     <!-- ========================================事物配置========================================= -->
     <!-- 指定事物管理器 -->
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
