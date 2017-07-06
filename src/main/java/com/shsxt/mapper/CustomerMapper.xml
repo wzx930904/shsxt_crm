@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shsxt.dao.CustomerDao">
+	<select id="selectForPage" resultType="customer">
+		select id,khno,name,area,cus_manager,level,myd,xyd,address,post_code,
+		phone,fax,web_site,yyzzzch,fr,zczj,nyye,khyh,khzh,dsdjh,gsdjh
+		from t_customer
+		where is_valid=1
+		<if test="@Ognl@isNotEmpty(khno)">
+			and khno=#{khno}
+		</if>
+		<if test="@Ognl@isNotEmpty(name)">
+			and name like '%${name}%'
+		</if>
+	</select>
+	
+	<select id="findLossCustomer" resultType="customer">
+	select id,khno,cus_manager,name
+	from t_customer
+	where DATE_ADD(update_date,INTERVAL 6 MONTH) &lt;=now()
+	and state=0
+	and id not in (
+	select cus_id from t_customer_order
+	)
+	</select>
+	
+	<select id="findLossCustomerNoOrderLongTime" resultType="customer">
+	select id,khno,cus_manager,name
+	from t_customer
+	where id in (
+		select cus_id from t_customer_order
+		where DATE_ADD(update_date,INTERVAL 6 MONTH) &lt;=now()
+	) and state=0
+	</select>
+	
+	<update id="updateStates">
+	update t_customer set state=2 where id in(${ids})
+	</update>
+</mapper>        
