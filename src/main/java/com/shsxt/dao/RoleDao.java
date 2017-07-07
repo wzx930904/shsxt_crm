@@ -34,4 +34,7 @@ public interface RoleDao {
 	@Update("update t_role set is_valid=0 where id in (${ids})")
 	void deleteBatch(@Param(value="ids")String ids);
 
+	@Select("select id, role_name from t_role where is_valid=1")
+	List<Role> findRoleName();
+
 }

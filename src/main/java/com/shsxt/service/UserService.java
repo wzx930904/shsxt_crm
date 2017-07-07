@@ -1,5 +1,7 @@
 package com.shsxt.service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,9 +15,11 @@ import com.github.miemiedev.mybatis.paginator.domain.PageList;
 import com.shsxt.base.AssertUtil;
 import com.shsxt.controller.BaseController;
 import com.shsxt.dao.UserDao;
+import com.shsxt.dao.UserRoleDao;
 import com.shsxt.dto.UserQuery;
 import com.shsxt.exception.ParamException;
 import com.shsxt.model.User;
+import com.shsxt.model.UserRole;
 import com.shsxt.util.MD5Util;
 import com.shsxt.util.UserIDBase64;
 import com.shsxt.vo.UserLoginIdentity;
@@ -25,6 +29,8 @@ public class UserService {
 
 	@Resource
 	private UserDao userDao;
+	@Resource
+	private UserRoleDao userRoleDao;
 	/**
 	 * 用户登录
 	 * @param userName用户名
@@ -104,5 +110,59 @@ public class UserService {
 		map.put("rows", users);
 		map.put("total", users.getPaginator().getTotalCount());
 		return map;
+	}
+
+	public void add(User user) {
+		checkParams(user);
+		User userByName = userDao.findUsrByUserName(user.getUserName());
+		AssertUtil.isTrue(userByName != null, "该用户已存在");
+		user.setCreateDate(new Date());
+		user.setUpdateDate(new Date());
+		String password = MD5Util.md5Method(user.getPassword());
+		user.setPassword(password);
+		userDao.add(user);
+		saveUserRoles(user);
+	}
+
+	private void saveUserRoles(User user) {
+		List<UserRole> userRoles = new ArrayList<>();
+		for (Integer roleId : user.getRoleIds()) {
+			UserRole userRole = new UserRole();
+			userRole.setRoleId(roleId);
+			userRole.setIsValid(1);
+			userRole.setUserId(user.getId());
+			userRole.setCreateDate(new Date());
+			userRole.setUpdateDate(new Date());
+			userRoles.add(userRole);
+		}
+		userRoleDao.insertBatch(userRoles);
+	}
+
+	public void update(User user) {
+		checkParams(user);
+		User userById = userDao.findById(user.getId());
+		AssertUtil.objectIsEmpty(userById, "该用户不存在");
+		if (userById.getUserName() != user.getUserName()) {
+			User userByName = userDao.findUsrByUserName(user.getUserName());
+			AssertUtil.isTrue(userByName != null, "该用户已存在");
+		}
+		userRoleDao.deleteBatch(user.getId());
+		String password = user.getPassword();
+		user.setPassword(MD5Util.md5Method(password));
+		user.setUpdateDate(new Date());
+		userDao.update(user);
+		saveUserRoles(user);
+	}
+
+	public void delete(String ids) {
+		AssertUtil.stringIsEmpty(ids, "请选择要删除的记录");
+		userDao.deleteBatch(ids);
+	}
+	
+	public void checkParams(User user) {
+		AssertUtil.stringIsEmpty(user.getUserName(), "请输入用户名");
+		AssertUtil.stringIsEmpty(user.getPassword(), "请输入密码");
+		AssertUtil.stringIsEmpty(user.getPhone(), "请输入联系电话");
+		AssertUtil.isTrue(user.getRoleIds() == null, "请选择角色");
 	}
 }

@@ -39,4 +39,9 @@
 	<update id="updateStates">
 	update t_customer set state=2 where id in(${ids})
 	</update>
+	
+	<insert id="add">
+	insert into t_user (user_name,password,true_name,email,phone,is_valid,create_date,update_date)
+	values (#{userName},#{password},#{trueName},#{email},#{phone},1,#{createDate},#{updateDate})
+	</insert>
 </mapper>        

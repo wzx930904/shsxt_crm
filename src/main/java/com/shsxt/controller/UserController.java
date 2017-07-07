@@ -61,4 +61,25 @@ public class UserController  extends BaseController{
 		Map<String, Object> result = userService.selectForPage(userQuery);
 		return result;
 	}
+	
+	@RequestMapping("add")
+	@ResponseBody
+	public ResultInfo add(User user) {
+		userService.add(user);
+		return success("操作成功");
+	}
+	
+	@RequestMapping("update")
+	@ResponseBody
+	public ResultInfo update(User user) {
+		userService.update(user);
+		return success("操作成功");
+	}
+	
+	@RequestMapping("delete")
+	@ResponseBody
+	public ResultInfo delete(String ids) {
+		userService.delete(ids);
+		return success("删除成功");
+	}
 }

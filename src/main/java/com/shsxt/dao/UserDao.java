@@ -30,4 +30,10 @@ public interface UserDao {
 	List<User> findByRoleName(@Param(value="roleName")String roleName);
 
 	public PageList<User> selectForPage(UserQuery userQuery, PageBounds buildPageBounds);
+
+	public void add(User user);
+
+	public void update(User user);
+
+	public void deleteBatch(@Param(value="ids")String ids);
 }

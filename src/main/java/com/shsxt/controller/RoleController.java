@@ -1,5 +1,6 @@
 package com.shsxt.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -52,4 +53,10 @@ public class RoleController extends BaseController{
 		return success("删除成功");
 	}
 	
+	@RequestMapping("find_all")
+	@ResponseBody
+	public List<Role> findRoleName() {
+		List<Role> roles = roleService.findRoleName();
+		return roles;
+	}
 }

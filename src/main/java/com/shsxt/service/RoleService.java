@@ -63,4 +63,9 @@ public class RoleService {
 		return role;
 	}
 
+	public List<Role> findRoleName() {
+		List<Role> roles = roleDao.findRoleName();
+		return roles;
+	}
+
 }

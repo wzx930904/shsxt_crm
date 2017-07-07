@@ -27,12 +27,34 @@
 	</resultMap>
 	<select id="selectForPage" resultMap="UserResult">
 		select
-		<include refid="User_Columns_Join" />,t3.id as rid,t3.role_name
-		from t_user t1 left join t_user_role t2 on t1.id=t2.user_id
+		<include refid="User_Columns_Join" />
+		,t3.id as rid,t3.role_name
+		from t_user t1 left join t_user_role t2 on
+		t1.id=t2.user_id
 		left join t_role t3 on t3.id=t2.role_id
-		where t1.is_valid=1 and t3.is_valid=1
+		where
+		t1.is_valid=1 and t3.is_valid=1
 		<if test="@Ognl@isNotEmpty(userName)">
 			and user_name like '%${userName}%'
 		</if>
 	</select>
+
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		insert into
+		t_user
+		(user_name,password,true_name,email,phone,is_valid,create_date,update_date)
+		values
+		(#{userName},#{password},#{trueName},#{email},#{phone},1,#{createDate},#{updateDate})
+	</insert>
+
+	<update id="update">
+		update t_user set
+		user_name=#{userName},password=#{password},true_name=#{trueName},
+		email=#{email},phone=#{phone},is_valid=1,update_date=#{updateDate}
+		where id=#{id}
+	</update>
+
+	<update id="deleteBatch">
+		update t_user set is_valid=0,update_date=now() where id in (${ids})
+	</update>
 </mapper>

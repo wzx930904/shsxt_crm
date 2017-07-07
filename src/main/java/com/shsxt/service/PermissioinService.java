@@ -163,4 +163,9 @@ public class PermissioinService {
 		permission.setAclValue(optValue);
 		permissions.add(permission);
 	}
+
+	public List<String> findRolePermissions(String roleIds) {
+		List<String> aclValues = permissionDao.findRolePermissions(roleIds);
+		return aclValues;
+	}
 }
