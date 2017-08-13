@@ -30,10 +30,12 @@
             <a href="javascript:openTab('营销机会管理','sale_chance/index','icon-yxjhgl')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-yxjhgl'" style="width: 150px">营销机会管理</a>
             <a href="javascript:openTab('客户开发计划','sale_chance/index?state=1','icon-khkfjh')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-khkfjh'" style="width: 150px">客户开发计划</a>
         </div>
+       <#-- <#if userPermissions?seq_contains("20")>-->
         <div title="客户管理"  data-options="iconCls:'icon-khgl'" style="padding:10px;">
             <a href="javascript:openTab('客户信息管理','customer/index','icon-khxxgl')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-khxxgl'" style="width: 150px;">客户信息管理</a>
             <a href="javascript:openTab('客户流失管理','customer_loss/index','icon-khlsgl')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-khlsgl'" style="width: 150px;">客户流失管理</a>
         </div>
+       <#-- </#if>-->
         <div title="服务管理" data-options="iconCls:'icon-fwgl'" style="padding:10px">
             <a href="javascript:openTab('服务创建','customer_serve/index/1','icon-fwcj')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-fwcj'" style="width: 150px;">服务创建</a>
             <a href="javascript:openTab('服务分配','customer_serve/index/2','icon-fwfp')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-fwfp'" style="width: 150px;">服务分配</a>
