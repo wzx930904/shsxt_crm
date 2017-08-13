@@ -13,7 +13,7 @@ public class SaleChanceBuilder {
 
 	private static Logger logger = LoggerFactory.getLogger(SaleChanceBuilder.class);
 	private static String COMMON_COLUMN = "t.id,t.customer_name,t.overview,t.customer_id,t.chance_source,t.link_man,t.state, "
-			+" t.link_phone,t.create_date,t.create_man,t.cgjl,t.description,t.dev_result,t.assign_man";
+			+" t.link_phone,t.create_date,t.create_man,t.cgjl,t.description,t.dev_result,t.assign_man,t.assign_time";
 	
 	public String selectForPageSql(final SaleChanceQuery query) {
 		SQL sql = new SQL(){{
@@ -31,6 +31,9 @@ public class SaleChanceBuilder {
 			}
 			if (query.getState() != null) {
 				AND().WHERE("state=#{state}");
+			}
+			if (query.getDevResult() != null) {
+				AND().WHERE("dev_result=#{devResult}");
 			}
 			ORDER_BY("id desc");
 		}};

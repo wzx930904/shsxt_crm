@@ -45,7 +45,7 @@ function saveSaleChance() {
 		$.messager.alert("系统提示","请选择客户名称");
 	}
 	$("#customerName").val(customerName);
-	$("#fm").form()("submit",{
+	$("#fm").form("submit",{
 		url:"add_update",
 		onSubmit:function(){
 			return $(this).form("validate");

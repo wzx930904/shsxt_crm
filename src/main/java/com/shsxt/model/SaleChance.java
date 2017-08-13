@@ -2,6 +2,8 @@ package com.shsxt.model;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.xml.internal.ws.developer.StreamingAttachment;
 
@@ -18,6 +20,7 @@ public class SaleChance extends BaseModel{
 	private String createMan;//创建人
 	private String assignMan;//分配人
 	@JsonFormat(pattern="yyyy-MM-dd  HH:mm:ss",timezone="GMT+8")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date assignTime;//分配时间
 	private Integer state;//状态：0=未分配 1=已分配
 	private Integer devResult;//开发状态
